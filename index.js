@@ -1,79 +1,94 @@
 function getComputerChoice() {
-    let x = Math.floor(Math.random() * 3);
-    if (x == 0) {
-        return "Rock";
-    } else if (x == 1) {
-        return "Paper";
-    } else {
-        return "Scissors";
-    }
+  let x = Math.floor(Math.random() * 3);
+  if (x == 0) {
+    return "Rock";
+  } else if (x == 1) {
+    return "Paper";
+  } else {
+    return "Scissors";
+  }
 }
 
 function playRound(playerSelection, computerSelection) {
-    let player = playerSelection.toLowerCase();
-    let computer = computerSelection.toLowerCase();
-    switch (player) {
+  let player = playerSelection.toLowerCase();
+  let computer = computerSelection.toLowerCase();
+  switch (player) {
+    case "rock":
+      switch (computer) {
         case "rock":
-            switch (computer) {
-                case "rock":
-                    return "tie";
-                case "paper":
-                    return "you lose";
-                case "scissors":
-                    return "you win";
-                default:
-                    return "unknown input";
-            }
+          return "tie";
         case "paper":
-            switch (computer) {
-                case "rock":
-                    return "you win";
-                case "paper":
-                    return "tie";
-                case "scissors":
-                    return "you lose";
-                default:
-                    return "unknown input";
-            }
+          return "you lose";
         case "scissors":
-            switch (computer) {
-                case "rock":
-                    return "you lose";
-                case "paper":
-                    return "you win";
-                case "scissors":
-                    return "tie";
-                default:
-                    return "unknown input";
-            }
+          return "you win";
         default:
-            return "unknown input";
-    }
+          return "unknown input";
+      }
+    case "paper":
+      switch (computer) {
+        case "rock":
+          return "you win";
+        case "paper":
+          return "tie";
+        case "scissors":
+          return "you lose";
+        default:
+          return "unknown input";
+      }
+    case "scissors":
+      switch (computer) {
+        case "rock":
+          return "you lose";
+        case "paper":
+          return "you win";
+        case "scissors":
+          return "tie";
+        default:
+          return "unknown input";
+      }
+    default:
+      return "unknown input";
+  }
 }
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i < 5; i++) {
-        let player = prompt("Make your choice: ").toLowerCase();
-        let computer = getComputerChoice().toLowerCase();
-        let result = playRound(player, computer);
-        switch (result) {
-            case "tie":
-                continue;
-            case "you win":
-                playerScore++;
-            case "you lose":
-                computerScore++;
-        }
-    }
-    if (playerScore > computerScore) {
-        console.log("You win!!");
-    } else if (computerScore > playerScore) {
-        console.log("You Lose!!");
-    } else {
-        console.log("You tied!!");
-    }
-}
+// function game() {
+//   let playerScore = 0;
+//   let computerScore = 0;
+//   for (let i = 0; i < 5; i++) {
+//     let player = prompt("Make your choice: ").toLowerCase();
+//     let computer = getComputerChoice().toLowerCase();
+//     let result = playRound(player, computer);
+//     switch (result) {
+//       case "tie":
+//         continue;
+//       case "you win":
+//         playerScore++;
+//       case "you lose":
+//         computerScore++;
+//     }
+//   }
+//   if (playerScore > computerScore) {
+//     console.log("You win!!");
+//   } else if (computerScore > playerScore) {
+//     console.log("You Lose!!");
+//   } else {
+//     console.log("You tied!!");
+//   }
+// }
 
-game()
+// game();
+
+const rock_btn = document.querySelector('#rock-btn');
+rock_btn.addEventListener('click', () => {
+  console.log(playRound('rock', getComputerChoice()));
+});
+
+const paper_btn = document.querySelector('#paper-btn');
+paper_btn.addEventListener('click', () => {
+  console.log(playRound('paper', getComputerChoice()));
+});
+
+const scissors_btn = document.querySelector('#scissors-btn');
+scissors_btn.addEventListener('click', () => {
+  console.log(playRound('scissors', getComputerChoice()));
+});
