@@ -51,51 +51,74 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-// function game() {
-//   let playerScore = 0;
-//   let computerScore = 0;
-//   for (let i = 0; i < 5; i++) {
-//     let player = prompt("Make your choice: ").toLowerCase();
-//     let computer = getComputerChoice().toLowerCase();
-//     let result = playRound(player, computer);
-//     switch (result) {
-//       case "tie":
-//         continue;
-//       case "you win":
-//         playerScore++;
-//       case "you lose":
-//         computerScore++;
-//     }
-//   }
-//   if (playerScore > computerScore) {
-//     console.log("You win!!");
-//   } else if (computerScore > playerScore) {
-//     console.log("You Lose!!");
-//   } else {
-//     console.log("You tied!!");
-//   }
-// }
+function assertScoreChange(player, text) {
+  switch (player) {
+    case "player":
+      if (text == "you win") {
+        return 1;
+      } else {
+        return 0;
+      }
+    case "computer":
+      if (text == "you lose") {
+        return 1;
+      } else {
+        return 0;
+      }
+  }
+}
 
-// game();
+function assertWinner(player) {
+  let game_result = document.createElement("p");
+  if (player == 1) {
+    game_result.textContent = "You win the game!";
+  } else {
+    game_result.textContent = "You lost the game.";
+  }
+  return game_result;
+}
 
-const result_div = document.querySelector('.result-div');
-let result = document.createElement('p');
+const result_div = document.querySelector(".result-div");
+const rock_btn = document.querySelector("#rock-btn");
+const paper_btn = document.querySelector("#paper-btn");
+const scissors_btn = document.querySelector("#scissors-btn");
 
-const rock_btn = document.querySelector('#rock-btn');
-rock_btn.addEventListener('click', () => {
-  result.textContent = playRound('rock', getComputerChoice());
-  result_div.appendChild(result);
-});
+function game() {
+  let playerScore = 0;
+  let computerScore = 0;
+  let result_text = "";
+  let result = document.createElement("p");
+  let running = document.createElement("p");
 
-const paper_btn = document.querySelector('#paper-btn');
-paper_btn.addEventListener('click', () => {
-  result.textContent = playRound('paper', getComputerChoice());
-  result_div.appendChild(result);
-});
+  rock_btn.addEventListener("click", () => {
+    result_div.innerHTML = ''
+    result_text = playRound("rock", getComputerChoice());
+    playerScore += assertScoreChange("player", result_text);
+    computerScore += assertScoreChange("computer", result_text);
+    result.textContent = result_text;
+    running.textContent = `Your score: ${playerScore} Computer score: ${computerScore}`;
+    result_div.appendChild(result);
+    result_div.appendChild(running);
+    if (playerScore >= 5) {
+      result_div.appendChild(assertWinner(1));
+      playerScore = 0
+      computerScore = 0
+    } else if (computerScore >= 5) {
+      result_div.appendChild(assertWinner(0));
+      playerScore = 0
+      computerScore = 0
+    }
+  });
 
-const scissors_btn = document.querySelector('#scissors-btn');
-scissors_btn.addEventListener('click', () => {
-  result.textContent = playRound('scissors', getComputerChoice());
-  result_div.appendChild(result);
-});
+  paper_btn.addEventListener("click", () => {
+    result.textContent = playRound("paper", getComputerChoice());
+    result_div.appendChild(result);
+  });
 
+  scissors_btn.addEventListener("click", () => {
+    result.textContent = playRound("scissors", getComputerChoice());
+    result_div.appendChild(result);
+  });
+}
+
+game();
