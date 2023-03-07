@@ -79,45 +79,35 @@ function assertWinner(player) {
 }
 
 const result_div = document.querySelector(".result-div");
-const rock_btn = document.querySelector("#rock-btn");
-const paper_btn = document.querySelector("#paper-btn");
-const scissors_btn = document.querySelector("#scissors-btn");
+const buttons = document.querySelectorAll("button");
+let playerScore = 0;
+let computerScore = 0;
+let result_text = "";
+let result = document.createElement("p");
+let running = document.createElement("p");
 
 function game() {
-  let playerScore = 0;
-  let computerScore = 0;
-  let result_text = "";
-  let result = document.createElement("p");
-  let running = document.createElement("p");
+  buttons.forEach((button) => {
+    button.addEventListener("click", function (e) {
+      result_div.innerHTML = "";
+      result_text = playRound(e.target.id, getComputerChoice());
+      playerScore += assertScoreChange("player", result_text);
+      computerScore += assertScoreChange("computer", result_text);
+      result.textContent = result_text;
+      running.textContent = `Your score: ${playerScore} Computer score: ${computerScore}`;
+      result_div.appendChild(result);
+      result_div.appendChild(running);
 
-  rock_btn.addEventListener("click", () => {
-    result_div.innerHTML = ''
-    result_text = playRound("rock", getComputerChoice());
-    playerScore += assertScoreChange("player", result_text);
-    computerScore += assertScoreChange("computer", result_text);
-    result.textContent = result_text;
-    running.textContent = `Your score: ${playerScore} Computer score: ${computerScore}`;
-    result_div.appendChild(result);
-    result_div.appendChild(running);
-    if (playerScore >= 5) {
-      result_div.appendChild(assertWinner(1));
-      playerScore = 0
-      computerScore = 0
-    } else if (computerScore >= 5) {
-      result_div.appendChild(assertWinner(0));
-      playerScore = 0
-      computerScore = 0
-    }
-  });
-
-  paper_btn.addEventListener("click", () => {
-    result.textContent = playRound("paper", getComputerChoice());
-    result_div.appendChild(result);
-  });
-
-  scissors_btn.addEventListener("click", () => {
-    result.textContent = playRound("scissors", getComputerChoice());
-    result_div.appendChild(result);
+      if (playerScore >= 5) {
+        result_div.appendChild(assertWinner(1));
+        playerScore = 0;
+        computerScore = 0;
+      } else if (computerScore >= 5) {
+        result_div.appendChild(assertWinner(0));
+        playerScore = 0;
+        computerScore = 0;
+      }
+    });
   });
 }
 
